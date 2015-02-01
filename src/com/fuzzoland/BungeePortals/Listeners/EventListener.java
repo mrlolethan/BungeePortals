@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.fuzzoland.BungeePortals.BungeePortals;
@@ -67,6 +68,15 @@ public class EventListener implements Listener{
 			if(this.statusData.get(playerName)){
 				this.statusData.put(playerName, false);
 			}
+		}
+	}
+
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+
+		if (this.statusData.containsKey(player)) {
+			this.statusData.remove(player); // Remove the player from the map; prevents memory leak.
 		}
 	}
 
